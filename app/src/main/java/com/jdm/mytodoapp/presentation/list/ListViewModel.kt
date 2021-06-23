@@ -18,15 +18,15 @@ import java.security.PrivateKey
  * 2. [UpdateToDoUseCase]
  * 3. [DeleteAllToDoItemUseCase]
  */
-class ListViewModel(
+internal class ListViewModel(
     private val getToDoListUseCase: GetToDoListUseCase,
     private val updateToDoListUseCase: UpdateToDoListUseCase,
     private val deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
-) : ViewModel(){
+) : BaseViewModel(){
     private var _toDoListLiveData = MutableLiveData<ToDoListState>(ToDoListState.UnInitialized)
     val todoListLiveData: LiveData<ToDoListState> = _toDoListLiveData
 
-    fun fetchData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         _toDoListLiveData.postValue(ToDoListState.Loading)
         _toDoListLiveData.postValue(ToDoListState.Suceess(getToDoListUseCase()))
     }
